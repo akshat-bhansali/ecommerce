@@ -1,29 +1,45 @@
-import React from 'react'
-import ProductCard from "./ProductCard.js";
+import React, { Fragment, useEffect } from "react";
 import "./Home.css";
-
-
-const product = {
-    name : "Test Prod",
-    images : [{ url :"https://www.pexels.com/photo/black-motorcycle-parked-on-gray-concrete-road-9266562/"}],
-    price : 3000,
-    _id : "akshat"
-};
+import ProductCard from "./ProductCard.js";
+import MetaData from "../layout/MetaData";
+import { clearErrors, getProduct } from "../../actions/productAction";
+import { useSelector, useDispatch } from "react-redux";
+import Loader from "../layout/Loader/Loader";
+import { useAlert } from "react-alert";
 
 const Home = () => {
-  return (
-    <div>
-      <h2>Featured Products</h2>
-      <div className='container'>
-      <ProductCard  product={product} />
-      <ProductCard  product={product} />
-      <ProductCard  product={product} />
-      <ProductCard  product={product} />
-      <ProductCard  product={product} />
-      <ProductCard  product={product} />
-      </div>
-    </div>
-  )
-}
+  const alert = useAlert();
+  const dispatch = useDispatch();
+  const { loading, error, products } = useSelector((state) => state.products);
 
-export default Home
+  useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+    dispatch(getProduct());
+  }, [dispatch, error, alert]);
+
+  return (
+    <Fragment>
+      {loading ? (
+        <Loader />
+      ) : (
+        <Fragment>
+          <MetaData title="ECOMMERCE" />
+
+          <h2 className="homeHeading">Featured Products</h2>
+
+          <div className="container" id="container">
+            {products &&
+              products.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+          </div>
+        </Fragment>
+      )}
+    </Fragment>
+  );
+};
+
+export default Home;
