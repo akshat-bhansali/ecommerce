@@ -14,7 +14,7 @@ const ReviewCard = ({ review }) => {
   return (
     <div className="reviewCard">
       <img src="https://www.freeiconspng.com/img/898" alt="User" />
-    //   <a href="https://www.freeiconspng.com/img/898">Png Save Profile</a>
+      {/* <a href="https://www.freeiconspng.com/img/898">Png Save Profile</a> */}
       <p>{review.name}</p>
       <ReactStars {...options} />
       <span className="reviewCardComment">{review.comment}</span>

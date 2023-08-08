@@ -9,6 +9,17 @@ import { useAlert } from "react-alert";
 import Typography from "@material-ui/core/Typography";
 import { useParams } from "react-router-dom";
 import Pagination from "react-js-pagination";
+import MetaData from "../layout/MetaData";
+
+const categories = [
+    "Laptop",
+    "Footwear",
+    "Bottom",
+    "Tops",
+    "Attire",
+    "Camera",
+    "SmartPhones",
+  ];
 
 const Products = ({ match }) => {
   const dispatch = useDispatch();
@@ -19,27 +30,30 @@ const Products = ({ match }) => {
     error,
     productsCount,
     resultPerPage,
-    // filteredProductsCount,
+    filteredProductsCount,
   } = useSelector((state) => state.products);
   const { keyword } = useParams();
   const setCurrentPageNo = (e) => {
     setCurrentPage(e);
   };
+  const [ratings, setRatings] = useState(0);
+  const [category, setCategory] = useState("");
   const priceHandler = (event, newPrice) => {
     setPrice(newPrice);
   };
-//   let count = filteredProductsCount;
+  let count = filteredProductsCount;
+  console.log(count);
   const [price, setPrice] = useState([0, 50000]);
 
   const alert = useAlert();
   useEffect(() => {
-    // if (error) {
-    //   alert.error(error);
-    //   dispatch(clearErrors());
-    // }
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
 
-    dispatch(getProduct(keyword, currentPage, price));
-  }, [dispatch, keyword, currentPage, price]);
+    dispatch(getProduct(keyword, currentPage, price,category,ratings));
+  }, [dispatch, keyword, currentPage, price,category,ratings,alert,error]);
 
   return (
     <div>
@@ -48,7 +62,7 @@ const Products = ({ match }) => {
           <Loader />
         ) : (
           <Fragment>
-            {/* <MetaData title="PRODUCTS -- ECOMMERCE" /> */}
+            <MetaData title="PRODUCTS -- ECOMMERCE" />
             <h2 className="productsHeading">Products</h2>
 
             <div className="products">
@@ -69,7 +83,7 @@ const Products = ({ match }) => {
                 max={50000}
               />
 
-              {/* <Typography>Categories</Typography>
+              <Typography>Categories</Typography>
             <ul className="categoryBox">
               {categories.map((category) => (
                 <li
@@ -94,7 +108,7 @@ const Products = ({ match }) => {
                 min={0}
                 max={5}
               />
-            </fieldset> */}
+            </fieldset>
             </div>
             {resultPerPage < productsCount && (
               <div className="paginationBox">
