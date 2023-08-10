@@ -7,6 +7,7 @@ import { BrowserRouter , Route,Routes, Switch } from "react-router-dom";
 import ProductDetails from "./component/Product/ProductDetails";
 import Products from "./component/Product/Products";
 import Search from './component/Product/Search.js';
+import LoginSignUp from './component/User/LoginSignUp.js';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
 
         <Route path="/products/:keyword" element={<Products/>} />
         <Route path="/search" element={<Search />} />
+        <Route path="/login" element={<LoginSignUp />} />
           </Routes>
       <Footer/>
     </BrowserRouter>

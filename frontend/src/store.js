@@ -11,13 +11,13 @@ import {
   reviewReducer,
 } from "./reducers/productReducer";
 
-// import {
-//   allUsersReducer,
-//   forgotPasswordReducer,
-//   profileReducer,
-//   userDetailsReducer,
-//   userReducer,
-// } from "./reducers/userReducer";
+import {
+  allUsersReducer,
+  forgotPasswordReducer,
+  profileReducer,
+  userDetailsReducer,
+  userReducer,
+} from "./reducers/userReducer";
 
 // import { cartReducer } from "./reducers/cartReducer";
 // import {
@@ -33,6 +33,7 @@ const reducer = combineReducers({
 
   products: productsReducer,
   productDetails: productDetailsReducer,
+  user: userReducer,
 });
 
 let initialState = {};
