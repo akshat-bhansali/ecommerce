@@ -34,6 +34,7 @@ const reducer = combineReducers({
   products: productsReducer,
   productDetails: productDetailsReducer,
   user: userReducer,
+  profile: profileReducer,
 });
 
 let initialState = {};
