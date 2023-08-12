@@ -14,6 +14,13 @@ import UserOptions from "./component/layout/Header/UserOptions";
 import { useSelector } from "react-redux";
 import Profile from './component/User/Profile.js';
 import UpdateProfile from "./component/User/UpdateProfile";
+import UpdatePassword from "./component/User/UpdatePassword";
+import ForgotPassword from "./component/User/ForgotPassword";
+import ResetPassword from "./component/User/ResetPassword";
+import Cart from "./component/Cart/Cart";
+import Shipping from "./component/Cart/Shipping";
+import ConfirmOrder from "./component/Cart/ConfirmOrder";
+import axios from "axios";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -40,6 +47,12 @@ function App() {
         <Route path="/login" element={<LoginSignUp />} />
         {isAuthenticated && <Route path="/account" element={<Profile />} />}
         {isAuthenticated && <Route path="/me/update" element={<UpdateProfile />} />}
+        {isAuthenticated && <Route path="/password/update" element={<UpdatePassword />} />}
+        <Route path="/password/forgot" element={<ForgotPassword />} />
+        <Route path="/password/reset/:token" element={<ResetPassword/>} />
+        {isAuthenticated && <Route path="/shipping" element={<Shipping />} />}
+        {isAuthenticated && <Route path="/order/confirm" element={<ConfirmOrder />} />}
+        <Route path="/cart" element={<Cart/>} />
           </Routes>
       <Footer/>
     </BrowserRouter>

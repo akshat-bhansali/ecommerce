@@ -13,6 +13,7 @@ import {
   getProductDetails,
   newReview,
 } from "../../actions/productAction";
+import { addItemsToCart } from "../../actions/cartAction";
 
 const ProductDetails = ({ match }) => {
 
@@ -24,6 +25,26 @@ const ProductDetails = ({ match }) => {
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );
+
+
+  const [quantity, setQuantity] = useState(1); 
+  const increaseQuantity = () => {
+    if (product.Stock <= quantity) return;
+
+    const qty = quantity + 1;
+    setQuantity(qty);
+  };
+
+  const decreaseQuantity = () => {
+    if (1 >= quantity) return;
+
+    const qty = quantity - 1;
+    setQuantity(qty);
+  };
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(id, quantity));
+    alert.success("Item Added To Cart");
+  };
   
   const options = {
       size: "large",
@@ -87,14 +108,14 @@ const ProductDetails = ({ match }) => {
               <div className="detailsBlock-3">
                 <h1>{`₹${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
-                  {/* <div className="detailsBlock-3-1-1">
-                    <button >-</button>
+                  <div className="detailsBlock-3-1-1">
+                  <button onClick={decreaseQuantity}>-</button>
                     <input readOnly type="number" value={quantity} />
-                    <button >+</button>
-                  </div> */}
+                    <button onClick={increaseQuantity}>+</button>
+                  </div>
                   <button
                     disabled={product.Stock < 1 ? true : false}
-                    // onClick={addToCartHandler}
+                    onClick={addToCartHandler}
                   >
                     Add to Cart
                   </button>
@@ -102,7 +123,7 @@ const ProductDetails = ({ match }) => {
 
                 <p>
                   Status:
-                  <b className={product.Stock < 1 ? "redColor" : "greenColor"}>
+                  <b className={product.Stock < 1 ? "redColor" : 'greenColor'}>
                     {product.Stock < 1 ? "OutOfStock" : "InStock"}
                   </b>
                 </p>

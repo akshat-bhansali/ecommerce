@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./LoginSignUp.css";
 import Loader from "../layout/Loader/Loader";
-import { Link } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
@@ -10,7 +10,7 @@ import { clearErrors, login, register } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 import { useNavigate  } from "react-router-dom";
 
-const LoginSignUp = ({history}) => {
+const LoginSignUp = ({}) => {
 
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -94,12 +94,12 @@ const LoginSignUp = ({history}) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-
+    // const redirect = window.location.search ? window.location.search.split("=")[1] : "/account";
     if (isAuthenticated) {
     //   history.push("/accounts");
-    navigate("/accounts");
+    navigate("/account");
     }
-  }, [dispatch, error, alert, isAuthenticated]); 
+  }, [dispatch, error, alert, isAuthenticated,redirect]); 
   return (
       
       <Fragment>
