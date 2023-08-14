@@ -54,7 +54,7 @@ function App() {
         {isAuthenticated && <Route path="/order/confirm" element={<ConfirmOrder />} />}
         <Route path="/cart" element={<Cart/>} />
           </Routes>
-      <Footer/>
+      {/* <Footer/> */}
     </BrowserRouter>
     </>
   );

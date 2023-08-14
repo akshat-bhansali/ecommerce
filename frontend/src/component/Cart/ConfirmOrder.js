@@ -6,8 +6,57 @@ import "./ConfirmOrder.css";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
+import axios from "axios"
 
 const ConfirmOrder = ({ history }) => {
+
+
+
+  const initPayment = (data) => {
+		const options = {
+			key: "rzp_test_FFmybeRKLHkZGx",
+			amount: data.amount,
+			currency: data.currency,
+			name: "book.name",
+			description: "Test Transaction",
+			image: "./Profile.png",
+			order_id: data.id,
+			handler: async (response) => {
+				try {
+					const verifyUrl = "/api/v1/verify";
+					const { data } = await axios.post(verifyUrl, response);
+					console.log(data);
+				} catch (error) {
+          console.log(response);
+					console.log(error);
+				}
+			},
+			theme: {
+				color: "#3399cc",
+			},
+		};
+    const rzp2 = new window.Razorpay(options);
+		rzp2.open();
+	};
+
+	const handlePayment = async () => {
+		try {
+			const orderUrl = "/api/v1/process/payment";
+			const { data } = await axios.post(orderUrl, { amount: totalPrice });
+			console.log(data);
+			initPayment(data.data);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+
+
+
+
+
+
+
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -106,7 +155,7 @@ const ConfirmOrder = ({ history }) => {
               <span>₹{totalPrice}</span>
             </div>
 
-            <button onClick={proceedToPayment}>Proceed To Payment</button>
+            <button onClick={handlePayment}>Proceed To Payment</button>
           </div>
         </div>
       </div>
