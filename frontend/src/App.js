@@ -20,7 +20,9 @@ import ResetPassword from "./component/User/ResetPassword";
 import Cart from "./component/Cart/Cart";
 import Shipping from "./component/Cart/Shipping";
 import ConfirmOrder from "./component/Cart/ConfirmOrder";
-import axios from "axios";
+import OrderSuccess from "./component/Cart/OrderSuccess";
+import MyOrders from "./component/Order/MyOrders";
+import OrderDetails from "./component/Order/OrderDetails";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -50,9 +52,12 @@ function App() {
         {isAuthenticated && <Route path="/password/update" element={<UpdatePassword />} />}
         <Route path="/password/forgot" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<ResetPassword/>} />
+        <Route path="/cart" element={<Cart/>} />
         {isAuthenticated && <Route path="/shipping" element={<Shipping />} />}
         {isAuthenticated && <Route path="/order/confirm" element={<ConfirmOrder />} />}
-        <Route path="/cart" element={<Cart/>} />
+        {isAuthenticated && <Route path="/success" element={<OrderSuccess/>} />}
+        {isAuthenticated && <Route path="/orders" element={<MyOrders/>} />}
+        {isAuthenticated && <Route path="/order/:id" element={<OrderDetails/>} />}
           </Routes>
       {/* <Footer/> */}
     </BrowserRouter>

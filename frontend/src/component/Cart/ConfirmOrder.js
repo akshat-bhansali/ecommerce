@@ -1,66 +1,20 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import CheckoutSteps from "../Cart/CheckoutSteps";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import MetaData from "../layout/MetaData";
 import "./ConfirmOrder.css";
 import { Link } from "react-router-dom";
 import { Typography } from "@material-ui/core";
 import { useNavigate } from "react-router-dom";
-import axios from "axios"
+import axios from "axios";
+import { createOrder, clearErrors } from "../../actions/orderAction";
 
 const ConfirmOrder = ({ history }) => {
-
-
-
-  const initPayment = (data) => {
-		const options = {
-			key: "rzp_test_FFmybeRKLHkZGx",
-			amount: data.amount,
-			currency: data.currency,
-			name: "book.name",
-			description: "Test Transaction",
-			image: "./Profile.png",
-			order_id: data.id,
-			handler: async (response) => {
-				try {
-					const verifyUrl = "/api/v1/verify";
-					const { data } = await axios.post(verifyUrl, response);
-					console.log(data);
-				} catch (error) {
-          console.log(response);
-					console.log(error);
-				}
-			},
-			theme: {
-				color: "#3399cc",
-			},
-		};
-    const rzp2 = new window.Razorpay(options);
-		rzp2.open();
-	};
-
-	const handlePayment = async () => {
-		try {
-			const orderUrl = "/api/v1/process/payment";
-			const { data } = await axios.post(orderUrl, { amount: totalPrice });
-			console.log(data);
-			initPayment(data.data);
-		} catch (error) {
-			console.log(error);
-		}
-	};
-
-
-
-
-
-
-
-
+  const dispatch = useDispatch();
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
+  const { error } = useSelector((state) => state.newOrder);
   const { user } = useSelector((state) => state.user);
   const navigate = useNavigate();
-
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.quantity * item.price,
     0
@@ -74,19 +28,62 @@ const ConfirmOrder = ({ history }) => {
 
   const address = `${shippingInfo.address}, ${shippingInfo.city}, ${shippingInfo.state}, ${shippingInfo.pinCode}, ${shippingInfo.country}`;
 
-  const proceedToPayment = () => {
-    const data = {
-      subtotal,
-      shippingCharges,
-      tax,
-      totalPrice,
-    };
-
-    sessionStorage.setItem("orderInfo", JSON.stringify(data));
-
-    navigate("/process/payment");
+  const order = {
+    shippingInfo,
+    orderItems: cartItems,
+    itemsPrice: subtotal,
+    taxPrice: tax,
+    shippingPrice: shippingCharges,
+    totalPrice: totalPrice,
   };
 
+  const initPayment = (data) => {
+    const options = {
+      key: process.env.RAZORPAY_ID_KEY,
+      amount: data.amount,
+      currency: data.currency,
+      name: "book.name",
+      description: "Test Transaction",
+      image: "./Profile.png",
+      order_id: data.id,
+      handler: async (response) => {
+        try {
+          const verifyUrl = "/api/v1/verify";
+          const { data } = await axios.post(verifyUrl, response);
+          console.log(data);
+          dispatch(createOrder(order));
+          navigate("/success");
+        } catch (error) {
+          console.log(response);
+          console.log(error);
+        }
+      },
+      theme: {
+        color: "#3399cc",
+      },
+    };
+    const rzp2 = new window.Razorpay(options);
+    rzp2.open();
+  };
+
+  const handlePayment = async () => {
+    try {
+      const orderUrl = "/api/v1/process/payment";
+      const { data } = await axios.post(orderUrl, { amount: totalPrice });
+      console.log(data);
+      initPayment(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (error) {
+      // alert.error(error);
+      dispatch(clearErrors());
+    }
+  }, [dispatch, error, alert]);
+  
   return (
     <Fragment>
       <MetaData title="Confirm Order" />

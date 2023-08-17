@@ -5,8 +5,8 @@ const crypto = require("crypto");
 router.post("/process/payment", async (req, res) => {
 	try {
 		const instance = new Razorpay({
-			key_id:"rzp_test_FFmybeRKLHkZGx",
-			key_secret:"9DtnVyDFEaXcEfqbPP3TADBL",
+			key_id:process.env.RAZORPAY_ID_KEY,
+			key_secret:process.env.RAZORPAY_ID_SECRET,
 		});
 
 		const options = {
@@ -34,11 +34,9 @@ router.post("/verify", async (req, res) => {
 			req.body;
 		const sign = razorpay_order_id + "|" + razorpay_payment_id;
 		const expectedSign = crypto
-			.createHmac("sha256", "9DtnVyDFEaXcEfqbPP3TADBL")
+			.createHmac("sha256", process.env.RAZORPAY_ID_SECRET)
 			.update(sign.toString())
 			.digest("hex");
-
-            console.log("@13");
 		if (razorpay_signature === expectedSign) {
 			return res.status(200).json({ message: "Payment verified successfully" });
 		} else {
