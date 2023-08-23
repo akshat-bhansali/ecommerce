@@ -23,6 +23,15 @@ import ConfirmOrder from "./component/Cart/ConfirmOrder";
 import OrderSuccess from "./component/Cart/OrderSuccess";
 import MyOrders from "./component/Order/MyOrders";
 import OrderDetails from "./component/Order/OrderDetails";
+import Dashboard from './component/Admin/Dashboard.js';
+import ProductList from "./component/Admin/ProductList.js";
+import NewProduct from "./component/Admin/NewProduct";
+import UpdateProduct from "./component/Admin/UpdateProduct";
+import OrderList from "./component/Admin/OrderList";
+import ProcessOrder from "./component/Admin/ProcessOrder";
+import UsersList from "./component/Admin/UsersList";
+import UpdateUser from "./component/Admin/UpdateUser";
+import ProductReviews from "./component/Admin/ProductReviews";
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -58,8 +67,19 @@ function App() {
         {isAuthenticated && <Route path="/success" element={<OrderSuccess/>} />}
         {isAuthenticated && <Route path="/orders" element={<MyOrders/>} />}
         {isAuthenticated && <Route path="/order/:id" element={<OrderDetails/>} />}
+        {isAuthenticated && <Route isAdmin={true} path="/admin/dashboard" element={<Dashboard/>} />}
+        {isAuthenticated && <Route isAdmin={true} path="/admin/products" element={<ProductList/>} />}
+        {isAuthenticated && <Route isAdmin={true} path="/admin/product/:id" element={<UpdateProduct/>} />}
+        {isAuthenticated && <Route isAdmin={true} path="/admin/product" element={<NewProduct/>} />}
+        {isAuthenticated && <Route isAdmin={true} path="/admin/orders" element={<OrderList/>} />}
+        {isAuthenticated && <Route isAdmin={true} path="/admin/order/:id" element={<ProcessOrder/>} />}
+        {isAuthenticated && <Route isAdmin={true} path="/admin/users" element={<UsersList/>} />}
+        {isAuthenticated && <Route isAdmin={true} path="/admin/user/:id" element={<UpdateUser/>} />}
+        {isAuthenticated && <Route isAdmin={true} path="/admin/reviews" element={<ProductReviews/>} />}
+
+
           </Routes>
-      {/* <Footer/> */}
+      <Footer/>
     </BrowserRouter>
     </>
   );
