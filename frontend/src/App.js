@@ -76,8 +76,6 @@ function App() {
         {isAuthenticated && <Route isAdmin={true} path="/admin/users" element={<UsersList/>} />}
         {isAuthenticated && <Route isAdmin={true} path="/admin/user/:id" element={<UpdateUser/>} />}
         {isAuthenticated && <Route isAdmin={true} path="/admin/reviews" element={<ProductReviews/>} />}
-
-
           </Routes>
       <Footer/>
     </BrowserRouter>
