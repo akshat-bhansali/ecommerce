@@ -30,7 +30,6 @@ const UpdateProfile = ({ history }) => {
 
     myForm.set("name", name);
     myForm.set("email", email);
-    myForm.set("avatar", avatar);
     dispatch(updateProfile(myForm));
   };
 
@@ -51,7 +50,7 @@ const UpdateProfile = ({ history }) => {
     if (user) {
       setName(user.name);
       setEmail(user.email);
-      setAvatarPreview(user.avatar.url);
+      setAvatarPreview("./Profile.png");
     }
 
     if (error) {
@@ -106,16 +105,6 @@ const UpdateProfile = ({ history }) => {
                     name="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-
-                <div id="updateProfileImage">
-                  <img src={avatarPreview} alt="Avatar Preview" />
-                  <input
-                    type="file"
-                    name="avatar"
-                    accept="image/*"
-                    onChange={updateProfileDataChange}
                   />
                 </div>
                 <input

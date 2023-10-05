@@ -9,8 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 import { useNavigate  } from "react-router-dom";
+import {GoogleLogin} from "react-google-login";
+import {gapi} from "gapi-script";
 
 const LoginSignUp = ({}) => {
+  const clientId = "1045613546992-lk67gqk2dlbt1scjtt1s5vpv67rrriq7.apps.googleusercontent.com";
 
   const dispatch = useDispatch();
   const alert = useAlert();
@@ -40,20 +43,7 @@ const LoginSignUp = ({}) => {
   };
 
   const registerDataChange = (e) => {
-    if (e.target.name === "avatar") {
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        if (reader.readyState === 2) {
-          setAvatarPreview(reader.result);
-          setAvatar(reader.result);
-        }
-      };
-
-      reader.readAsDataURL(e.target.files[0]);
-    } else {
       setUser({ ...user, [e.target.name]: e.target.value });
-    }
   };
 
   const registerSubmit = (e) => {
@@ -64,7 +54,6 @@ const LoginSignUp = ({}) => {
     myForm.set("name", name);
     myForm.set("email", email);
     myForm.set("password", password);
-    myForm.set("avatar", avatar);
     dispatch(register(myForm));
   };
 
@@ -90,6 +79,7 @@ const LoginSignUp = ({}) => {
   );
 
   useEffect(() => {
+    gapi.load('client:auth2',()=>{gapi.client.init({clientId:clientId,scope:""})})
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
@@ -136,6 +126,7 @@ const LoginSignUp = ({}) => {
               </div>
               <Link to="/password/forgot">Forget Password ?</Link>
               <input type="submit" value="Login" className="loginBtn" />
+              <GoogleLogin clientId={clientId} buttonText="Login" onSuccess={(res)=>{console.log(res.profileObj)}} onFailure={()=>{console.log("bad")}} cookiePolicy={'single_host_origin'}/>
             </form>
             <form
                 className="signUpForm"
@@ -173,16 +164,6 @@ const LoginSignUp = ({}) => {
                     required
                     name="password"
                     value={password}
-                    onChange={registerDataChange}
-                  />
-                </div>
-
-                <div id="registerImage">
-                  <img src={avatarPreview} alt="Avatar Preview" />
-                  <input
-                    type="file"
-                    name="avatar"
-                    accept="image/*"
                     onChange={registerDataChange}
                   />
                 </div>
