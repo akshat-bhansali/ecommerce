@@ -6,7 +6,7 @@ import MailOutlineIcon from "@material-ui/icons/MailOutline";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, login, register } from "../../actions/userAction";
+import { clearErrors, login, register, signUpWithGoogle } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 import { useNavigate  } from "react-router-dom";
 import {GoogleLogin} from "react-google-login";
@@ -33,13 +33,14 @@ const LoginSignUp = ({}) => {
 
   const { name, email, password } = user;
 
-  const [avatar, setAvatar] = useState("https://res.cloudinary.com/ddgnqb5hg/image/upload/v1691571372/samples/landscapes/beach-boat.jpg");
-  const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
-
-
   const loginSubmit = (e) => {
     e.preventDefault();
     dispatch(login(loginEmail, loginPassword));
+  };
+
+  const signUpSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login(loginEmail));
   };
 
   const registerDataChange = (e) => {
@@ -74,7 +75,7 @@ const LoginSignUp = ({}) => {
     }
   };
 
-  const { error, loading, isAuthenticated } = useSelector(
+  const { error, loading, isAuthenticated  } = useSelector(
     (state) => state.user
   );
 
@@ -84,9 +85,7 @@ const LoginSignUp = ({}) => {
       alert.error(error);
       dispatch(clearErrors());
     }
-    // const redirect = window.location.search ? window.location.search.split("=")[1] : "/account";
     if (isAuthenticated) {
-    //   history.push("/accounts");
     navigate("/account");
     }
   }, [dispatch, error, alert, isAuthenticated,redirect]); 
@@ -126,7 +125,14 @@ const LoginSignUp = ({}) => {
               </div>
               <Link to="/password/forgot">Forget Password ?</Link>
               <input type="submit" value="Login" className="loginBtn" />
-              <GoogleLogin clientId={clientId} buttonText="Login" onSuccess={(res)=>{console.log(res.profileObj)}} onFailure={()=>{console.log("bad")}} cookiePolicy={'single_host_origin'}/>
+              <GoogleLogin clientId={clientId} buttonText="Login" onSuccess={(res)=>{
+                console.log(res.profileObj);
+                dispatch(signUpWithGoogle(res.profileObj.name,res.profileObj.email));
+                // const flag =localStorage.getItem("flag");
+                // if(flag=="inital"){
+                //   navigate("/ResetPassword");
+                // }
+              }} onFailure={()=>{console.log("bad")}} cookiePolicy={'single_host_origin'}/>
             </form>
             <form
                 className="signUpForm"

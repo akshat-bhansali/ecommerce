@@ -23,17 +23,17 @@ const userSchema = new mongoose.Schema({
     minLength: [8, "Password should be greater than 8 characters"],
     select: false, //using this it wont be shown when data is received
   },
-  avatar: {
-    public_id: {
-      type: String,
-    },
-    url: {
-      type: String,
-    },
-  },
   role: {
     type: String,
     default: "user",
+  },
+  provider :{
+    type:String,
+    default:"email",
+  },
+  flag:{
+    type:String,
+    default:"changed",
   },
   createdAt: {
     type: Date,
