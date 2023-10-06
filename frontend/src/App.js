@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import Profile from './component/User/Profile.js';
 import UpdateProfile from "./component/User/UpdateProfile";
 import UpdatePassword from "./component/User/UpdatePassword";
+import UpdatePasswordGoogle from "./component/User/UpdatePasswordGoogle";
 import ForgotPassword from "./component/User/ForgotPassword";
 import ResetPassword from "./component/User/ResetPassword";
 import Cart from "./component/Cart/Cart";
@@ -32,6 +33,7 @@ import ProcessOrder from "./component/Admin/ProcessOrder";
 import UsersList from "./component/Admin/UsersList";
 import UpdateUser from "./component/Admin/UpdateUser";
 import ProductReviews from "./component/Admin/ProductReviews";
+
 
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
@@ -59,6 +61,7 @@ function App() {
         {isAuthenticated && <Route path="/account" element={<Profile />} />}
         {isAuthenticated && <Route path="/me/update" element={<UpdateProfile />} />}
         {isAuthenticated && <Route path="/password/update" element={<UpdatePassword />} />}
+        {isAuthenticated && <Route path="/password/update/google" element={<UpdatePasswordGoogle />} />}
         <Route path="/password/forgot" element={<ForgotPassword />} />
         <Route path="/password/reset/:token" element={<ResetPassword/>} />
         <Route path="/cart" element={<Cart/>} />

@@ -75,8 +75,12 @@ const LoginSignUp = ({}) => {
     }
   };
 
-  const { error, loading, isAuthenticated  } = useSelector(
+  const { error, loading, isAuthenticated } = useSelector(
     (state) => state.user
+  );
+
+  const { user2 } = useSelector(
+    (state) => state.user2
   );
 
   useEffect(() => {
@@ -88,6 +92,9 @@ const LoginSignUp = ({}) => {
     if (isAuthenticated) {
     navigate("/account");
     }
+    if (isAuthenticated && user2.flag=="initial") {
+      navigate("/password/update/google");
+      }
   }, [dispatch, error, alert, isAuthenticated,redirect]); 
   return (
       
@@ -128,10 +135,6 @@ const LoginSignUp = ({}) => {
               <GoogleLogin clientId={clientId} buttonText="Login" onSuccess={(res)=>{
                 console.log(res.profileObj);
                 dispatch(signUpWithGoogle(res.profileObj.name,res.profileObj.email));
-                // const flag =localStorage.getItem("flag");
-                // if(flag=="inital"){
-                //   navigate("/ResetPassword");
-                // }
               }} onFailure={()=>{console.log("bad")}} cookiePolicy={'single_host_origin'}/>
             </form>
             <form

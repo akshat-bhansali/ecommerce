@@ -175,6 +175,7 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
   }
 
   user.password = req.body.newPassword;
+  user.flag="changed";
 
   await user.save();
 
