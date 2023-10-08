@@ -6,7 +6,6 @@ import Home from "./component/Home/Home";
 import { BrowserRouter , Route,Routes } from "react-router-dom";
 import ProductDetails from "./component/Product/ProductDetails";
 import Products from "./component/Product/Products";
-import Search from './component/Product/Search.js';
 import LoginSignUp from './component/User/LoginSignUp.js';
 import store from "./store";
 import { loadUser } from "./actions/userAction";
@@ -55,7 +54,6 @@ function App() {
         <Route path="/products" element={<Products/>} />
 
         <Route path="/products/:keyword" element={<Products/>} />
-        <Route path="/search" element={<Search />} />
         <Route path="/login" element={<LoginSignUp />} />
         {isAuthenticated && <Route path="/account" element={<Profile />} />}
         {isAuthenticated && <Route path="/me/update" element={<UpdateProfile />} />}
