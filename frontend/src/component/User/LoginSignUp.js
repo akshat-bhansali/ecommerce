@@ -12,7 +12,7 @@ import { useNavigate  } from "react-router-dom";
 import {GoogleLogin} from "react-google-login";
 import {gapi} from "gapi-script";
 
-const LoginSignUp = ({}) => {
+const LoginSignUp = () => {
   const clientId = "1045613546992-lk67gqk2dlbt1scjtt1s5vpv67rrriq7.apps.googleusercontent.com";
 
   const dispatch = useDispatch();
@@ -38,10 +38,6 @@ const LoginSignUp = ({}) => {
     dispatch(login(loginEmail, loginPassword));
   };
 
-  const signUpSubmit = (e) => {
-    e.preventDefault();
-    dispatch(login(loginEmail));
-  };
 
   const registerDataChange = (e) => {
       setUser({ ...user, [e.target.name]: e.target.value });
@@ -90,9 +86,9 @@ const LoginSignUp = ({}) => {
       dispatch(clearErrors());
     }
     if (isAuthenticated) {
-    navigate("/account");
+    navigate("/");
     }
-    if (isAuthenticated && user2.flag=="initial") {
+    if (isAuthenticated && user2.flag==="initial") {
       navigate("/password/update/google");
       }
   }, [dispatch, error, alert, isAuthenticated,redirect]); 
@@ -177,6 +173,10 @@ const LoginSignUp = ({}) => {
                   />
                 </div>
                 <input type="submit" value="Register" className="signUpBtn" />
+                <GoogleLogin clientId={clientId} buttonText="Login" onSuccess={(res)=>{
+                console.log(res.profileObj);
+                dispatch(signUpWithGoogle(res.profileObj.name,res.profileObj.email));
+              }} onFailure={()=>{console.log("bad")}} cookiePolicy={'single_host_origin'}/>
               </form>
           </div>
         </div>

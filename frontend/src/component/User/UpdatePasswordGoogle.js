@@ -8,7 +8,6 @@ import { UPDATE_PASSWORD_RESET } from "../../constants/userConstants";
 import MetaData from "../layout/MetaData";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import LockIcon from "@material-ui/icons/Lock";
-import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import {  useNavigate } from "react-router-dom";
 
 const UpdatePassword = ({ history }) => {
@@ -18,7 +17,6 @@ const UpdatePassword = ({ history }) => {
 
   const { error, isUpdated, loading } = useSelector((state) => state.profile);
 
-  const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 

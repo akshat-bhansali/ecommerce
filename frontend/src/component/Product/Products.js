@@ -42,7 +42,7 @@ const Products = ({ match }) => {
     setPrice(newPrice);
   };
   let count = filteredProductsCount;
-  console.log(count);
+  //need to check
   const [price, setPrice] = useState([0, 50000]);
 
   const alert = useAlert();
@@ -66,7 +66,7 @@ const Products = ({ match }) => {
             <h2 className="productsHeading">Products</h2>
 
             <div className="products">
-              {products &&
+                {products[0]==null?<div>No products found</div>:products &&
                 products.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))}
