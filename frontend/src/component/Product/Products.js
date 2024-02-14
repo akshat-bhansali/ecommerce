@@ -66,7 +66,7 @@ const Products = ({ match }) => {
             <h2 className="productsHeading">Products</h2>
 
             <div className="products">
-                {products[0]==null?<div>No products found</div>:products &&
+                {products && products[0]==null?<div>No products found</div>:products &&
                 products.map((product) => (
                   <ProductCard key={product._id} product={product} />
                 ))}
