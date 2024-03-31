@@ -48,7 +48,7 @@ const ConfirmOrder = ({ history }) => {
       order_id: data.id,
       handler: async (response) => {
         try {
-          const verifyUrl = "/api/v1/verify";
+          const verifyUrl = `http://localhost:4000/api/v1/verify`;
           const { data } = await axios.post(verifyUrl, response);
           console.log(data);
           dispatch(createOrder(order));
@@ -68,7 +68,7 @@ const ConfirmOrder = ({ history }) => {
 
   const handlePayment = async () => {
     try {
-      const orderUrl = "/api/v1/process/payment";
+      const orderUrl = `http://localhost:4000/api/v1/process/payment`;
       const { data } = await axios.post(orderUrl, { amount: totalPrice });
       console.log(data);
       initPayment(data.data);

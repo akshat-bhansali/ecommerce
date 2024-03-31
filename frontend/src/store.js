@@ -29,9 +29,7 @@ import {
   orderReducer,
 } from "./reducers/orderReducer";
 
-// we have used combine reducer to combine everything into one reducer
 const reducer = combineReducers({
-
   products: productsReducer,
   productDetails: productDetailsReducer,
   user: userReducer,

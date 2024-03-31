@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
+    "caniuse-lite": "^1.0.30001603",
     "country-state-city": "^3.2.1",
     "gapi-script": "^1.2.0",
     "overlay-navbar": "^1.2.3",
@@ -57,6 +58,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "proxy": "http://172.20.10.3:4000"
+  }
 }

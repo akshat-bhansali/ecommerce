@@ -33,7 +33,7 @@ import {
         },
       };
       console.log(order);
-      const { data } = await axios.post("/api/v1/order/new", order, config);
+      const { data } = await axios.post(`http://localhost:4000/api/v1/order/new`, order, config);
       console.log(data);
   
       dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
@@ -50,7 +50,7 @@ import {
     try {
       dispatch({ type: MY_ORDERS_REQUEST });
   
-      const { data } = await axios.get("/api/v1/orders/me");
+      const { data } = await axios.get(`http://localhost:4000/api/v1/orders/me`);
   
       dispatch({ type: MY_ORDERS_SUCCESS, payload: data.orders });
     } catch (error) {
@@ -66,7 +66,7 @@ import {
     try {
       dispatch({ type: ALL_ORDERS_REQUEST });
   
-      const { data } = await axios.get("/api/v1/admin/orders");
+      const { data } = await axios.get(`http://localhost:4000/api/v1/admin/orders`);
   
       dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
     } catch (error) {
@@ -88,7 +88,7 @@ import {
         },
       };
       const { data } = await axios.put(
-        `/api/v1/admin/order/${id}`,
+        `http://localhost:4000/api/v1/admin/order/${id}`,
         order,
         config
       );
@@ -107,7 +107,7 @@ import {
     try {
       dispatch({ type: DELETE_ORDER_REQUEST });
   
-      const { data } = await axios.delete(`/api/v1/admin/order/${id}`);
+      const { data } = await axios.delete(`http://localhost:4000/api/v1/admin/order/${id}`);
   
       dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
     } catch (error) {
@@ -123,7 +123,7 @@ import {
     try {
       dispatch({ type: ORDER_DETAILS_REQUEST });
   
-      const { data } = await axios.get(`/api/v1/order/${id}`);
+      const { data } = await axios.get(`http://localhost:4000/api/v1/order/${id}`);
   
       dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.order });
     } catch (error) {
